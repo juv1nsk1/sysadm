@@ -28,18 +28,20 @@ Monitor command - daily
 
     $ python3 sysadm.py
 
-    Verifica se os discos estão acima de 90%
-    Verifica se o backup foi realizado e se os arquivos tgz não estão corrompidos
-    verifica se a versão do wordpress está atualizada
+    Check disk usage
+    Check backup files created
+    Check backup gzip file is not corrupted
+    Check if workpress is up to date 
    
 Auditor - hourly
 
     $ python3 sysadm.py ids
 
-    Verifica se algum arquivo sensível foi alterado (/etc/ confs, etc)
-    Verifica se algum acesso ssh foi realizado de uma rede nao conhecida
-    Verifica se os principais processos (nginx, ssh, mysql) estão rodando
-    Verifica se os sites estão no ar e com tempo de resposta aceitável
+    Look for changes on /etc/ config files
+    Validate SSH access by allowed IP and ISP trusted list
+    Check deamons status (nginx, ssh, mysql) 
+    Check site available with 200 status code 
+    Check site perfomance agains a threshold 
 
 Files:    
     _config.py - Configurações
