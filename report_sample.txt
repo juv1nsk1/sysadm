@@ -1,0 +1,13 @@
+1) Subject:  Monitor - Alert
+  
+  Backup /srv/storage/dump.tgz not found.
+  Backup /tmp/a.tgz corrupted.
+  Disk: /dev/nvme0n1p2 using: 92%
+  Your server is running Wordpress 5.7 but there is a newest version 6.3 available.
+
+2) Subject: IDS - Defcon protocol!
+
+  User www-data via IP 177.92.48.241 on 2023-08-10 23:46:36 through Ligga Telecomunica 
+  File /etc/passwd changed on 2023-08-10 23:23:27.
+  The mariadb process is not running.
+  https://www2.site.com/ exceeds threshold. Current 1.48 seconds
