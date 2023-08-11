@@ -1,0 +1,54 @@
+Monitor command - daily
+
+    $python3 sysadm.py
+
+    Verifica se os discos estão acima de 90%
+    Verifica se o backup foi realizado e se os arquivos tgz não estão corrompidos
+    verifica se a versão do wordpress está atualizada
+   
+Auditor - hourly
+
+    $python3 sysadm.py ids
+
+    Verifica se algum arquivo sensível foi alterado (/etc/ confs, etc)
+    Verifica se algum acesso ssh foi realizado de uma rede nao conhecida
+    Verifica se os principais processos (nginx, ssh, mysql) estão rodando
+    Verifica se os sites estão no ar e com tempo de resposta aceitável
+
+Files:    
+    _config.py - Configurações
+    _lib.py - Biblioteca de funções    
+    sysadm.py - Programa principal
+    _wordpress.py - playground para verificação de alterações em plugins e ususarios.
+
+
+Setup:
+    
+    Monitor
+    disk_space_threshold = 90 
+    backup_files =[ "/home/backup/file1.tgz","/file2.txt"]
+    wp_site_url = "https://blog.com.br" 
+               
+
+    IDS
+    ids_interval=1 # the same interval of crontab     
+
+    knowed_ssh_host=['177.92.48.240','127.0.0.1']  # to ignore     
+
+    process_list=['ssh','nginx'] # running on systemd 
+
+    folder_change = ['/etc','/tmp'] # monitor .conf .cnf .sh  changes
+    sensitive_files_change=['passwd','hosts','crontab'] # additional files to check
+    ignore_files_change=['subscriptions.conf'] 
+
+    site_timeout_threshold = 1 # in seconds
+    check_sites = ["https://google.com.br", "https://twitter.com"]
+
+
+    MAIL
+    to_email = "juvinski@gmail.com"
+    smtp_server="mail.smtp2go.com"    
+    smtp_user="j@gmail.com.br"
+    smtp_k="PASSWORD"
+
+
