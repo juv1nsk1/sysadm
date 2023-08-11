@@ -6,7 +6,9 @@ import tarfile
 import smtplib
 import subprocess
 import requests
+from email.mime.text import MIMEText
 from datetime import datetime, timedelta
+from email.mime.multipart import MIMEMultipart
 from _config import *
 
 
