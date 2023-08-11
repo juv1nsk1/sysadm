@@ -2,6 +2,7 @@
 import os
 import re
 import time
+import psutil
 import tarfile
 import smtplib
 import subprocess
@@ -35,11 +36,12 @@ def get_partition_usage():
 
 def check_disk_usage():
     partitions = get_partition_usage()
+    
     problematic_partitions = [partition for partition in partitions if partition["percent_used"] > disk_space_threshold]
     output=[]
     if problematic_partitions:        
         for partition in problematic_partitions:
-             output.append("Disk: {} using: {}%".format(partition["filesystem"], partition["percent_used"]))
+             output.append("Disk: {} using: {}%\n".format(partition["filesystem"], partition["percent_used"]))
     return "\n".join(output)
 
 def get_recently_modified_conf_files(root_dir, time_threshold):
@@ -120,12 +122,14 @@ def check_ssh_connections():
             for info in recent_remote_access_info:
                 username = info["username"]
                 ip = info["ip"]
-                if ip not in knowed_ssh_host:
-                    timestamp = info["timestamp"]                
-                    output.append("User {} via IP {} on {} through {} \n".format(username, ip, timestamp, get_whois_details(ip)))
+                if ip not in knowed_ssh_host:                    
+                    isp_name=get_whois_details(ip)
+                    if isp_name not in trusted_ssh_isp:    
+                        timestamp = info["timestamp"]  
+                        output.append(f"User {username} via IP {ip} on {timestamp} through {isp_name} \n")
     else:        
-        output.append("SSH log file not found. {}" .format(log_file))
-    return "\n".join(output)
+        output.append("SSH log file not found. {}" .format(log_file))    
+    return " ".join(output)
 
 def get_whois_details(ip_address):    
     try:                
@@ -255,3 +259,40 @@ def check_site_available():
         elif response_time > site_timeout_threshold:
             output.append(f"{site} exceeds threshold. Current {response_time:.2f} seconds\n")
     return "\n".join(output)
+
+
+def check_cpu_usage():
+    output=''
+    cpu_percent = psutil.cpu_percent(interval=1)   
+
+    if cpu_percent > cpu_threshold:
+        output=f"Current CPU usage is higher than the threshold. Current: {cpu_percent:.2f}%!\n"
+    return output
+
+def check_ram_usage():
+    output=''
+    memory = psutil.virtual_memory()
+    ram_percent = memory.percent
+    
+
+    if ram_percent > ram_threshold:
+        output=f"Current RAM usage is higher than the threshold. Currrent: {ram_percent:.2f}%!\n"
+    return output
+  
+def check_io_usage():
+    output=''    
+    partitions = psutil.disk_io_counters(perdisk=True)
+    
+    for index, (device, io_stats) in enumerate(partitions.items()):     
+        if 'loop' not in device:           
+            read_bytes_per_sec = io_stats.read_bytes 
+            write_bytes_per_sec = io_stats.write_bytes 
+
+            if read_bytes_per_sec > io_threshold_bytes_per_sec or write_bytes_per_sec > io_threshold_bytes_per_sec:
+                output += f"I/O usage is within the threshold  {io_threshold_bytes_per_sec}.\n"
+                output +=f"Partition: {device}\n"
+                output += f"Read Bytes/s: {read_bytes_per_sec:.2f} b/s\n"
+                output += f"Write Bytes/s: {write_bytes_per_sec:.2f} b/s\n\n"
+    
+    return output
+
