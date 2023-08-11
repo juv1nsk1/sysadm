@@ -12,6 +12,9 @@ if __name__ == "__main__":
         body += check_ssh_connections()
         body += is_process_running()
         body += check_site_available()
+        body += check_cpu_usage()
+        body += check_ram_usage()
+        body += check_io_usage()
         subject = "Defcon protocol"
     else:    
         body += check_backup()
