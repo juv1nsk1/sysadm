@@ -1,6 +1,25 @@
+----- It's the sample report ------
+
+1) Subject:  Monitor - Alert
+  
+  Backup /srv/storage/dump.tgz not found.
+  Backup /tmp/a.tgz corrupted.
+  Disk: /dev/nvme0n1p2 using: 92%
+  Your server is running Wordpress 5.7 but there is a newest version 6.3 available.
+
+2) Subject: IDS - Defcon protocol!
+
+  User www-data via IP 177.92.48.241 on 2023-08-10 23:46:36 through Ligga Telecomunica 
+  File /etc/passwd changed on 2023-08-10 23:23:27.
+  The mariadb process is not running.
+  https://www2.site.com/ exceeds threshold. Current 1.48 seconds
+
+
+------ Sysadm Toolkit  description -----
+
 Monitor command - daily
 
-    $python3 sysadm.py
+    $ python3 sysadm.py
 
     Verifica se os discos estão acima de 90%
     Verifica se o backup foi realizado e se os arquivos tgz não estão corrompidos
@@ -8,7 +27,7 @@ Monitor command - daily
    
 Auditor - hourly
 
-    $python3 sysadm.py ids
+    $ python3 sysadm.py ids
 
     Verifica se algum arquivo sensível foi alterado (/etc/ confs, etc)
     Verifica se algum acesso ssh foi realizado de uma rede nao conhecida
@@ -57,6 +76,7 @@ Requirements:
 
 CentOS and RedHat
  replace /var/log/auth.run by /var/log/secure on _lib.py
+ some ubuntu server required root access to read auth.log
 
 
 
