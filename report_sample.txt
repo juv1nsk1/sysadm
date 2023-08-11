@@ -11,3 +11,9 @@
   File /etc/passwd changed on 2023-08-10 23:23:27.
   The mariadb process is not running.
   https://www2.site.com/ exceeds threshold. Current 1.48 seconds
+  Current CPU usage is higher than the threshold. Current: 1.70%!
+  Current RAM usage is higher than the threshold. Currrent: 29.30%!
+  I/O usage is within the threshold  4901225472.
+    Partition: nvme0n1p2
+    Read Bytes/s: 4902138880.00 b/s
+    Write Bytes/s: 32993722368.00 b/s
