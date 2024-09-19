@@ -10,7 +10,6 @@ Before installing any software, it's a good idea to update your package list:
 
 ```bash
 sudo apt update
-sudo apt upgrade
 ```
 
 #### Step 2: Install Munin and Required Packages
